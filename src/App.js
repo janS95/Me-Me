@@ -9,29 +9,49 @@ axios.defaults.xsrfHeaderName = "X-CSRFToken";
 class App extends Component {
   state = {
     todos: [],
-    selectedFile: null
-
+    showIMG:
+      "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
+    postIMG: null,
   };
 
-    fileChangedHandler = event => {
-      this.setState(prevState=>({todos:prevState.todos, selectedFile: event.target.files[0] }))
-    }
-    
+  fileChangedHandler = (event) => {
+    this.setState((prevState) => ({
+      todos: prevState.todos,
+      showIMG: prevState.showIMG,
+      postIMG: event.target.files[0],
+    }));
+  };
 
-    uploadHandler = () => {
-      const formData = new FormData()
-      formData.append(
-        'myFile',
-        this.state.selectedFile,
-        this.state.selectedFile.name
-      )
-      axios.post('UNSERE DOMAIN', formData, {
-        onUploadProgress: progressEvent => {
-          console.log(progressEvent.loaded / progressEvent.total)
-        }
-      })
+  imageHandler = (e) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      if (reader.readyState === 2) {
+        this.setState((prevState) => ({
+          todos: prevState.todos,
+          showIMG: reader.result,
+          postIMG: prevState.postIMG,
+        }));
+      }
+    };
+    try {
+      reader.readAsDataURL(e.target.files[0]);
+    } catch (err) {
+      console.log(err);
     }
-  
+  };
+
+  uploadHandler = () => {
+    const formData = new FormData();
+    if (this.state.postIMG !== null) {
+      formData.append("myFile", this.state.postIMG, this.state.postIMG.name);
+      axios.post("UNSERE DOMAIN", formData, {
+        onUploadProgress: (progressEvent) => {
+          console.log(progressEvent.loaded / progressEvent.total);
+        },
+      });
+    }
+  };
+
   componentDidMount() {
     axios
       .get("/api/todos/")
@@ -40,9 +60,23 @@ class App extends Component {
   }
 
   render() {
+    const Img = this.state.showIMG;
     return (
       <div>
-        <input type="file" onChange={this.fileChangedHandler}></input>
+        <div className="img-holder">
+          <img src={Img} alt="" id="img" className="img" />
+        </div>
+        <input
+          type="file"
+          accept="image/*"
+          capture="camera"
+          name="image-upload"
+          id="input"
+          onChange={(e) => {
+            this.fileChangedHandler(e);
+            this.imageHandler(e);
+          }}
+        />
         <button onClick={this.uploadHandler}>Hochladen oder so!</button>
         <div>
           {this.state.todos.map((item) => (

@@ -2,6 +2,28 @@
   text-align: center;
 }
 
+
+
+.img-holder{
+  margin: auto;
+  width: 150px;
+  height: 150px;
+  border: 3px black solid;
+  border-radius: 5px;
+  margin-top: 1rem;
+}
+.img{
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+}
+
+
+
+
+
+
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;
