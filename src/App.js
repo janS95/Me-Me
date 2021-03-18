@@ -16,6 +16,7 @@ class App extends Component {
     fileChangedHandler = event => {
       this.setState(prevState=>({todos:prevState.todos, selectedFile: event.target.files[0] }))
     }
+    
 
     uploadHandler = () => {
       const formData = new FormData()
