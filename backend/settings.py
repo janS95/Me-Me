@@ -105,6 +105,7 @@ else:
     DATABASE_URL = 'sqlite:///' + os.path.join(BASE_DIR, 'db.sqlite3')
     DATABASES = {}
     DATABASES = {'default': dj_database_url.config(default=DATABASE_URL)}
+    
 
 #DATABASES = {}
 #DATABASES = {'default': dj_database_url.config(default=DATABASE_URL)}
