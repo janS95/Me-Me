@@ -7,18 +7,25 @@ axios.defaults.xsrfCookieName = "csrftoken";
 axios.defaults.xsrfHeaderName = "X-CSRFToken";
 
 class App extends Component {
-  state = {
+  constructor(props){
+    super(props)
+    this.state = {
     todos: [],
     showIMG:
       "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
     postIMG: null,
+    emotion: "keine Emotion"
   };
+  }
+  
 
   fileChangedHandler = (event) => {
     this.setState((prevState) => ({
       todos: prevState.todos,
       showIMG: prevState.showIMG,
       postIMG: event.target.files[0],
+      emotion:prevState.emotion
+     
     }));
   };
 
@@ -30,6 +37,7 @@ class App extends Component {
           todos: prevState.todos,
           showIMG: reader.result,
           postIMG: prevState.postIMG,
+          emotion:prevState.emotion
         }));
       }
     };
@@ -51,6 +59,12 @@ class App extends Component {
         },
       }).then((res)=> {
         console.log(res);
+        this.setState((prevState) => ({
+          todos: prevState.todos,
+          showIMG:prevState.showIMG,
+          postIMG: prevState.postIMG,
+          emotion: res.data
+        }))
       });
     }
   };
@@ -69,7 +83,7 @@ class App extends Component {
         <input
           type="file"
           accept="image/*"
-          capture="camera"
+          capture="user"
           name="image-upload"
           id="input"
           onChange={(e) => {
@@ -78,6 +92,7 @@ class App extends Component {
           }}
         />
         <button onClick={this.uploadHandler}>Hochladen oder so!</button>
+        <div>{this.state.emotion}</div>
       </div>
     );
   }

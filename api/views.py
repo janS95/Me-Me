@@ -5,12 +5,13 @@ from .serializers import ImageSerializer
 from .models import Image
 from django.http import HttpResponse, HttpResponseNotFound
 
+
 class ImageView(generics.ListCreateAPIView):
     serializer_class = ImageSerializer
     queryset = Image.objects.all()
 
     def post(self, request, format=None):
         new_image = ImageSerializer(data=request.data)
-        if new_image.is_valid():            
-            return HttpResponse('Gespeichert')
+        if new_image.is_valid():        
+            return HttpResponse('Hässlich')
         return HttpResponse('Fick dich')
