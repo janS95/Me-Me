@@ -105,7 +105,7 @@ else:
     DATABASE_URL = 'sqlite:///' + os.path.join(BASE_DIR, 'db.sqlite3')
     DATABASES = {}
     DATABASES = {'default': dj_database_url.config(default=DATABASE_URL)}
-    
+
 
 #DATABASES = {}
 #DATABASES = {'default': dj_database_url.config(default=DATABASE_URL)}
@@ -149,10 +149,10 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
-STATIC_URL = '/static/'
+STATIC_URL = os.path.join(BASE_DIR, 'build') #'/static/'
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'build/static')
+    os.path.join(BASE_DIR, 'build/static'),
 ]
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
