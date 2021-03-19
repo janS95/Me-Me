@@ -22,6 +22,6 @@ from . import views
 urlpatterns = [
     path('admin/', admin.site.urls),         
     path('api/', include('api.urls')),
+    path('service-worker.js', TemplateView.as_view(template_name='service-worker.js',content_type='application/javascript')),
     re_path('.*', views.index),#TemplateView.as_view(template_name='index.html')),
-    #path('service-worker.js', TemplateView.as_view(template_name='service-worker.js',content_type='application/javascript')),
 ]
