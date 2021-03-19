@@ -42,21 +42,21 @@ class App extends Component {
 
   uploadHandler = () => {
     const formData = new FormData();
+    console.log(this.state.postIMG);
     if (this.state.postIMG !== null) {
-      formData.append("myFile", this.state.postIMG, this.state.postIMG.name);
-      axios.post("UNSERE DOMAIN", formData, {
+      formData.append("image", this.state.postIMG, this.state.postIMG.name);
+      axios.post("/api/image/", formData, {
         onUploadProgress: (progressEvent) => {
           console.log(progressEvent.loaded / progressEvent.total);
         },
+      }).then((res)=> {
+        console.log(res);
       });
     }
   };
 
   componentDidMount() {
-    axios
-      .get("/api/todos/")
-      .then((res) => this.setState({ todos: res.data }))
-      .catch((err) => console.log(err));
+    
   }
 
   render() {
@@ -78,13 +78,6 @@ class App extends Component {
           }}
         />
         <button onClick={this.uploadHandler}>Hochladen oder so!</button>
-        <div>
-          {this.state.todos.map((item) => (
-            <div key={item.id}>
-              <h1>{item.title}</h1>
-            </div>
-          ))}
-        </div>
       </div>
     );
   }
