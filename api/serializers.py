@@ -1,7 +1,7 @@
 from rest_framework import serializers # This is important
-from .models import Todo
+from .models import Image
 
-class TodoSerializer(serializers.ModelSerializer):
+class ImageSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Todo
-        fields = ('id', 'title', 'description', 'completed')
+        model = Image
+        fields = '__all__'

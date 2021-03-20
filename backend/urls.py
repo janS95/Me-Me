@@ -16,14 +16,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, re_path, include
 from django.views.generic import TemplateView
-from rest_framework import routers                      # add this
-from api import views                                  # add this
-
-router = routers.DefaultRouter()                        # add this
-router.register(r'todos', views.TodoView, 'api')       # add this
+from api import views                                 
+from . import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),         
-    path('api/', include(router.urls)),
-    re_path('.*', TemplateView.as_view(template_name='index.html')),
+    path('api/', include('api.urls')),
+    path('service-worker.js', TemplateView.as_view(template_name='service-worker.js',content_type='application/javascript')),
+    path('manifest.json', TemplateView.as_view(template_name='manifest.json',content_type='application/manifest+json')),
+    re_path('.*', views.index),#TemplateView.as_view(template_name='index.html')),
 ]

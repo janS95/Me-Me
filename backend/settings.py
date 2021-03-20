@@ -89,12 +89,27 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
+#DATABASES = {
+#    'default': {
+#        'ENGINE': 'django.db.backends.sqlite3',
+#        'NAME': BASE_DIR / 'db.sqlite3',
+#    }
+#}
+ON_HEROKU = os.environ.get('ON_HEROKU')
+
+if ON_HEROKU:
+    #DATABASE_URL = 'postgresql://<postgresql>'
+    DATABASES = {}
+    DATABASES['default'] = dj_database_url.config(conn_max_age=600)
+else:
+    DATABASE_URL = 'sqlite:///' + os.path.join(BASE_DIR, 'db.sqlite3')
+    DATABASES = {}
+    DATABASES = {'default': dj_database_url.config(default=DATABASE_URL)}
+
+
+#DATABASES = {}
+#DATABASES = {'default': dj_database_url.config(default=DATABASE_URL)}
+
 #DATABASES = {}
 #DATABASES['default'] = dj_database_url.config(conn_max_age=600)
 
@@ -134,10 +149,11 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
-STATIC_URL = '/static/'
+STATIC_URL = os.path.join(BASE_DIR, 'build') #'/static/'
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'build/static')
+    os.path.join(BASE_DIR, 'build/static'),
+    os.path.join(BASE_DIR, 'build'),
 ]
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
