@@ -5,13 +5,20 @@ import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Container from "react-bootstrap/Container";
 import { Button, ProgressBar, Col, Form, Image, Row } from "react-bootstrap";
+import Firebase from "firebase";
+import firebaseConfig from "./config";
+
+
+
 
 axios.defaults.xsrfCookieName = "csrftoken";
 axios.defaults.xsrfHeaderName = "X-CSRFToken";
 
+
 class App extends Component {
   constructor(props) {
     super(props);
+    Firebase.initializeApp(firebaseConfig);
     this.state = {
       todos: [],
       showIMG:
@@ -19,10 +26,12 @@ class App extends Component {
       postIMG: null,
       emotion: "keine Emotion",
       uploadPercentage:0,
+      newImg: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
     };
   }
 
   fileChangedHandler = (event) => {
+    console.log("fileChanged");
     this.setState((prevState) => ({
       todos: prevState.todos,
       showIMG: prevState.showIMG,
@@ -77,12 +86,13 @@ class App extends Component {
           },
         })
         .then((res) => {
-          console.log(res);
+          console.log(res.data);
           this.setState((prevState) => ({
             todos: prevState.todos,
             showIMG: prevState.showIMG,
             postIMG: prevState.postIMG,
-            emotion: res.data,
+            emotion:prevState.emotion,
+            newImg: res.data
           }));
         });
     }
@@ -93,6 +103,7 @@ class App extends Component {
   render() {
     const Img = this.state.showIMG;
     const uploadPercentage=this.state.uploadPercentage;
+    const newImg = this.state.newImg;
     return (
       <Container style={{ maxWidth: "100%" }}>
         <Row
@@ -131,9 +142,12 @@ class App extends Component {
               capture="user"
               name="image-upload"
               id="input"
-              onChange={(e) => {
+              onInput={(e) => {
                 this.fileChangedHandler(e);
                 this.imageHandler(e);
+              }}
+              onClick={(e)=>{
+                e.target.value = '';
               }}
             />
           </Col>
@@ -144,7 +158,9 @@ class App extends Component {
           </Col>
         </Row>
         <Row>
-          <Col>{this.state.emotion}</Col>
+          <Col>
+            <Image src={newImg} rounded></Image>
+          </Col>
         </Row>
       </Container>
     );
