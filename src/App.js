@@ -4,7 +4,7 @@ import React, { Component } from "react";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Container from "react-bootstrap/Container";
-import { Button, ButtonGroup, Col, Form, Image, Row } from "react-bootstrap";
+import { Button, ProgressBar, Col, Form, Image, Row } from "react-bootstrap";
 
 axios.defaults.xsrfCookieName = "csrftoken";
 axios.defaults.xsrfHeaderName = "X-CSRFToken";
@@ -18,6 +18,7 @@ class App extends Component {
         "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
       postIMG: null,
       emotion: "keine Emotion",
+      uploadPercentage:0,
     };
   }
 
@@ -27,6 +28,7 @@ class App extends Component {
       showIMG: prevState.showIMG,
       postIMG: event.target.files[0],
       emotion: prevState.emotion,
+      uploadPercentage: prevState.uploadPercentage,
     }));
   };
 
@@ -39,6 +41,7 @@ class App extends Component {
           showIMG: reader.result,
           postIMG: prevState.postIMG,
           emotion: prevState.emotion,
+          uploadPercentage: prevState.uploadPercentage,
         }));
       }
     };
@@ -58,6 +61,19 @@ class App extends Component {
         .post("/api/image/", formData, {
           onUploadProgress: (progressEvent) => {
             console.log(progressEvent.loaded / progressEvent.total);
+            this.setState({
+              uploadPercentage: Math.floor(
+                (progressEvent.loaded * 100) / progressEvent.total
+              ),
+            });
+            if (
+              Math.floor((progressEvent.loaded * 100) / progressEvent.total) >=
+              100
+            ) {
+              setTimeout(() => {
+                this.setState({ uploadPercentage: 0 });
+              }, 1000);
+            }
           },
         })
         .then((res) => {
@@ -76,18 +92,39 @@ class App extends Component {
 
   render() {
     const Img = this.state.showIMG;
+    const uploadPercentage=this.state.uploadPercentage;
     return (
-      <Container style={{maxWidth:"100%"}}>
-        <Row style={{backgroundColor:"#212529", paddingTop:"20px",paddingBottom:"20px"}}><Col style={{backgroundColor:"#212529"}}>ME&amp;ME</Col></Row>
+      <Container style={{ maxWidth: "100%" }}>
+        <Row
+          style={{
+            backgroundColor: "#212529",
+            paddingTop: "20px",
+            paddingBottom: "20px",
+          }}
+        >
+          <Col style={{ backgroundColor: "#212529" }}>ME&amp;ME</Col>
+        </Row>
         <Row>
           <Col>
             <Image src={Img} rounded></Image>
           </Col>
         </Row>
-      
-        <Row >
-          <Col >
-          <label for="input" className="btn btn-primary">Bild auswählen</label>
+        {uploadPercentage > 0 && (
+          <Row>
+            <Col>
+              <ProgressBar style={{width:"40%", marginLeft:"auto",marginRight:"auto"}}
+                now={uploadPercentage}
+                label={`${uploadPercentage}%`}
+                animated
+              />
+            </Col>
+          </Row>
+        )}
+        <Row>
+          <Col>
+            <label for="input" className="btn btn-primary">
+              Bild auswählen
+            </label>
             <Form.File
               type="file"
               accept="image/*"
@@ -98,7 +135,6 @@ class App extends Component {
                 this.fileChangedHandler(e);
                 this.imageHandler(e);
               }}
-              
             />
           </Col>
         </Row>
