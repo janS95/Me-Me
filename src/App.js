@@ -20,7 +20,7 @@ class App extends Component {
     super(props);
     Firebase.initializeApp(firebaseConfig);
     this.state = {
-      todos: [],
+   
       showIMG:
         "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
       postIMG: null,
@@ -33,7 +33,7 @@ class App extends Component {
   fileChangedHandler = (event) => {
     console.log("fileChanged");
     this.setState((prevState) => ({
-      todos: prevState.todos,
+
       showIMG: prevState.showIMG,
       postIMG: event.target.files[0],
       emotion: prevState.emotion,
@@ -46,7 +46,7 @@ class App extends Component {
     reader.onload = () => {
       if (reader.readyState === 2) {
         this.setState((prevState) => ({
-          todos: prevState.todos,
+    
           showIMG: reader.result,
           postIMG: prevState.postIMG,
           emotion: prevState.emotion,
@@ -88,7 +88,7 @@ class App extends Component {
         .then((res) => {
           console.log(res.data);
           this.setState((prevState) => ({
-            todos: prevState.todos,
+    
             showIMG: prevState.showIMG,
             postIMG: prevState.postIMG,
             emotion:prevState.emotion,

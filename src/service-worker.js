@@ -26,7 +26,7 @@ precacheAndRoute(self.__WB_MANIFEST);
 // are fulfilled with your index.html shell. Learn more at
 // https://developers.google.com/web/fundamentals/architecture/app-shell
 const fileExtensionRegexp = new RegExp('/[^/?]+\\.[^/]+$');
-registerRoute(
+/* registerRoute(
   // Return false to exempt requests from being fulfilled by index.html.
   ({ request, url }) => {
     // If this isn't a navigation, skip.
@@ -37,7 +37,9 @@ registerRoute(
     if (url.pathname.startsWith('/_')) {
       return false;
     } // If this looks like a URL for a resource, because it contains // a file extension, skip.
-
+    if (url.pathname.startsWith('/admin/')){
+      return false;
+    }
     if (url.pathname.match(fileExtensionRegexp)) {
       return false;
     } // Return true to signal that we want to use the handler.
@@ -45,7 +47,7 @@ registerRoute(
     return true;
   },
   createHandlerBoundToURL(process.env.PUBLIC_URL + '/index.html')
-);
+); */
 
 
 
