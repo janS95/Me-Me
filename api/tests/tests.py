@@ -14,7 +14,6 @@ class ImageViewTests(TestCase):
         with open('api\\tests\\happy.jpg','rb') as image:
             response = self.client.post('/api/image/', {'image':image})
             self.assertEqual(response.status_code, status.HTTP_200_OK)
-            self.assertEqual(response.json(), 'happy')
     
     def test_no_face(self):
         """

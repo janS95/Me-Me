@@ -33,12 +33,12 @@ class ImageView(generics.CreateAPIView):
                 npimg = np.fromstring(image, dtype=np.uint8)
                 img = cv2.imdecode(npimg, 1)
                 detector = FER()
-                res = detector.top_emotion(img)[0]  
-                res = Image.objects.all().filter(pk=139)[0].link
+                emotion = detector.top_emotion(img)[0]  
+                res = Image.objects.all().filter(emotion=emotion.upper())[0].link
                 return Response(res, status=status.HTTP_200_OK)
             except IndexError:
                 return Response(status=status.HTTP_400_BAD_REQUEST)
-        return Response(new_image.errors, status=status.HTTP_415_UNSUPPORTED_MEDIA_TYPE)
+        return Response(serializer.errors, status=status.HTTP_415_UNSUPPORTED_MEDIA_TYPE)
 
 
 
