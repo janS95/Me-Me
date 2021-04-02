@@ -64,6 +64,10 @@ registerRoute(
   ({url}) => url.pathname.startsWith('/image/'),
   new NetworkFirst()
 );
+registerRoute(
+  ({url}) => url.pathname.startsWith('/auth/users/'),
+  new NetworkFirst()
+);
 
 
 // An example runtime caching route for requests that aren't handled by the
