@@ -5,10 +5,16 @@ import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Container from "react-bootstrap/Container";
 import { Button, ProgressBar, Col, Form, Image, Row } from "react-bootstrap";
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Firebase from "firebase";
 import firebaseConfig from "./config";
 
-
+import Home from './containers/Home';
+import Login from './containers/Login';
+import Signup from './containers/Signup';
+import Activate from './containers/Activate';
+import ResetPassword from './containers/ResetPassword';
+import ResetPasswordConfirm from './containers/ResetPasswordConfirm';
 
 
 axios.defaults.xsrfCookieName = "csrftoken";
@@ -162,6 +168,18 @@ class App extends Component {
             <Image src={newImg} rounded></Image>
           </Col>
         </Row>
+
+        <Router>
+          <Switch>
+            <Route exact path='/' component={Home} />
+            <Route exact path='/login' component={Login} />
+            <Route exact path='/signup' component={Signup} />
+            <Route exact path='/reset-password' component={ResetPassword} />
+            <Route exact path='/password/reset/confirm/:uid/:token' component={ResetPasswordConfirm} />
+            <Route exact path='/activate/:uid/:token' component={Activate} />
+          </Switch>
+        </Router>
+
       </Container>
     );
   }
