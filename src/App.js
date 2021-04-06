@@ -5,45 +5,52 @@ import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Container from "react-bootstrap/Container";
 import { Button, ProgressBar, Col, Form, Image, Row } from "react-bootstrap";
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Firebase from "firebase";
 import firebaseConfig from "./config";
 
-import Home from './containers/Home';
-import Login from './containers/Login';
-import Signup from './containers/Signup';
-import Activate from './containers/Activate';
-import ResetPassword from './containers/ResetPassword';
-import ResetPasswordConfirm from './containers/ResetPasswordConfirm';
+import Home from "./containers/Home";
+import Login from "./containers/Login";
+import Signup from "./containers/Signup";
+import Activate from "./containers/Activate";
+import ResetPassword from "./containers/ResetPassword";
+import ResetPasswordConfirm from "./containers/ResetPasswordConfirm";
 
-import Layout from './hocs/Layout';
+import Layout from "./hocs/Layout";
 
-import { Provider } from 'react-redux';
-import store from './store';
+import { Provider } from "react-redux";
+import store from "./store";
 
 axios.defaults.xsrfCookieName = "csrftoken";
 axios.defaults.xsrfHeaderName = "X-CSRFToken";
-
+var player = null;
 
 class App extends Component {
   constructor(props) {
     super(props);
     Firebase.initializeApp(firebaseConfig);
     this.state = {
-   
       showIMG:
         "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
       postIMG: null,
       emotion: "keine Emotion",
-      uploadPercentage:0,
-      newImg: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
+      uploadPercentage: 0,
+      newImg:
+        "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
     };
+
+    player = document.getElementById("player");
+    const constraints = {
+      video: true,
+    };
+    navigator.mediaDevices.getUserMedia(constraints).then((stream) => {
+      player.srcObject = stream;
+    });
   }
 
   fileChangedHandler = (event) => {
     console.log("fileChanged");
     this.setState((prevState) => ({
-
       showIMG: prevState.showIMG,
       postIMG: event.target.files[0],
       emotion: prevState.emotion,
@@ -56,7 +63,6 @@ class App extends Component {
     reader.onload = () => {
       if (reader.readyState === 2) {
         this.setState((prevState) => ({
-    
           showIMG: reader.result,
           postIMG: prevState.postIMG,
           emotion: prevState.emotion,
@@ -98,11 +104,10 @@ class App extends Component {
         .then((res) => {
           console.log(res.data);
           this.setState((prevState) => ({
-    
             showIMG: prevState.showIMG,
             postIMG: prevState.postIMG,
-            emotion:prevState.emotion,
-            newImg: res.data
+            emotion: prevState.emotion,
+            newImg: res.data,
           }));
         });
     }
@@ -112,7 +117,7 @@ class App extends Component {
 
   render() {
     const Img = this.state.showIMG;
-    const uploadPercentage=this.state.uploadPercentage;
+    const uploadPercentage = this.state.uploadPercentage;
     const newImg = this.state.newImg;
     return (
       <Container style={{ maxWidth: "100%" }}>
@@ -133,7 +138,12 @@ class App extends Component {
         {uploadPercentage > 0 && (
           <Row>
             <Col>
-              <ProgressBar style={{width:"40%", marginLeft:"auto",marginRight:"auto"}}
+              <ProgressBar
+                style={{
+                  width: "40%",
+                  marginLeft: "auto",
+                  marginRight: "auto",
+                }}
                 now={uploadPercentage}
                 label={`${uploadPercentage}%`}
                 animated
@@ -156,8 +166,8 @@ class App extends Component {
                 this.fileChangedHandler(e);
                 this.imageHandler(e);
               }}
-              onClick={(e)=>{
-                e.target.value = '';
+              onClick={(e) => {
+                e.target.value = "";
               }}
             />
           </Col>
@@ -172,16 +182,43 @@ class App extends Component {
             <Image src={newImg} rounded></Image>
           </Col>
         </Row>
+        <Row>
+          <Col>
+            <video id="player" controls={false} autoplay></video>
+            <button
+              id="capture"
+              onClick={(_) => {
+                const canvas = document.getElementById("canvas");
+                const context = canvas.getContext("2d");
+                context.drawImage(player, 0, 0, canvas.width, canvas.height);
+              }}
+            >
+              Capture
+            </button>
+            <canvas
+              id="canvas"
+              style={{ width: "320px", height: "240px" }}
+            ></canvas>
+          </Col>
+        </Row>
         <Provider store={store}>
           <Router>
             <Layout>
               <Switch>
-                <Route exact path='/' component={Home} />
-                <Route exact path='/login' component={Login} />
-                <Route exact path='/signup' component={Signup} />
-                <Route exact path='/reset-password' component={ResetPassword} />
-                <Route exact path='/password/reset/confirm/:uid/:token' component={ResetPasswordConfirm} />
-                <Route exact path='/activate/:uid/:token' component={Activate} />
+                <Route exact path="/" component={Home} />
+                <Route exact path="/login" component={Login} />
+                <Route exact path="/signup" component={Signup} />
+                <Route exact path="/reset-password" component={ResetPassword} />
+                <Route
+                  exact
+                  path="/password/reset/confirm/:uid/:token"
+                  component={ResetPasswordConfirm}
+                />
+                <Route
+                  exact
+                  path="/activate/:uid/:token"
+                  component={Activate}
+                />
               </Switch>
             </Layout>
           </Router>

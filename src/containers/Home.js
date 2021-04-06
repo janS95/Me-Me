@@ -10,7 +10,7 @@ const Home = () => (
             <p>Click the Log In button</p>
             <Link class="btn btn-primary btn-lg" href="#" role="button">Login</Link>
         </div>
-        
+
     </div>
 );
 
