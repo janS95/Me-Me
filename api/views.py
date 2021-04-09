@@ -34,6 +34,7 @@ class ImageView(generics.CreateAPIView):
                 img = cv2.imdecode(npimg, 1)
                 detector = FER()
                 emotion = detector.top_emotion(img)[0]  
+                return Response(emotion)
                 res = Image.objects.all().filter(emotion=emotion.upper())[0].link
                 return Response(res, status=status.HTTP_200_OK)
             except IndexError:
