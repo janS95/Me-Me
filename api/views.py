@@ -5,8 +5,8 @@ from .models import Image
 from rest_framework import status
 from rest_framework.response import Response
 import requests
-from fer import FER
-import cv2
+#rom fer import FER
+#import cv2
 import os
 import numpy as np
 
@@ -25,7 +25,7 @@ class ImageView(generics.CreateAPIView):
     serializer_class = ImageUploadSerializer
 
     def post(self, request, format=None):
-        
+        """ 
         serializer = ImageUploadSerializer(data=request.data)
         if serializer.is_valid(): 
             try:
@@ -38,7 +38,7 @@ class ImageView(generics.CreateAPIView):
                 res = Image.objects.all().filter(emotion=emotion.upper())[0].link
                 return Response(res, status=status.HTTP_200_OK)
             except IndexError:
-                return Response(status=status.HTTP_400_BAD_REQUEST)
+                return Response(status=status.HTTP_400_BAD_REQUEST) """
         return Response(serializer.errors, status=status.HTTP_415_UNSUPPORTED_MEDIA_TYPE)
 
 
