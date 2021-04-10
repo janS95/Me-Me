@@ -163,6 +163,8 @@ USE_TZ = True
 STATIC_URL = os.path.join(BASE_DIR, 'build') #'/static/'
 
 AUTH_USER_MODEL = 'accounts.UserAccount'
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
+
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'build/static'),
