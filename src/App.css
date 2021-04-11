@@ -1,60 +1,52 @@
 .App {
   text-align: center;
 }
-*{
+* {
   -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
-  background-color: #282c34;
+  /* background-color: #282c34; */
   color: azure;
 }
 
-html{
+html {
   width: 100%;
   height: 100%;
-  background-color: #282c34;
+  /* background-color: #282c34; */
 }
-body{
+body {
   width: 100%;
   height: 100%;
-  background-color: #282c34 !important;
-
+  /* background-color: #282c34 !important; */
 }
-.container{
+.container {
   text-align: center;
   padding: 0 !important;
 }
-.col{
+.col {
   text-align: center;
   padding: 0 !important;
 }
-.rounded{
-
+.rounded {
   width: 250px;
   height: 250px;
 }
-img{
+img {
   object-fit: cover;
 }
-.form-control-file{
+.form-control-file {
   opacity: 0;
   width: 0.1px;
   height: 0.1px;
   position: absolute;
 }
-.row{
+.row {
   margin: 0;
   padding-top: 3%;
   padding-bottom: 2%;
 }
-
-
-
-
-
-
 
 .App-logo {
   height: 40vmin;

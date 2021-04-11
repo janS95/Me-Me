@@ -9,7 +9,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Firebase from "firebase";
 import firebaseConfig from "./config";
 
-import Home from "./containers/Home";
+import Camera from "./containers/Camera";
 import Login from "./containers/Login";
 import Signup from "./containers/Signup";
 import Activate from "./containers/Activate";
@@ -28,7 +28,11 @@ var player = null;
 class App extends Component {
   constructor(props) {
     super(props);
-    Firebase.initializeApp(firebaseConfig);
+    if (!Firebase.apps.length) {
+      Firebase.initializeApp(firebaseConfig);
+    } else {
+      Firebase.app(); // if already initialized, use that one
+    }
     this.state = {
       showIMG:
         "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
@@ -149,8 +153,8 @@ class App extends Component {
     const uploadPercentage = this.state.uploadPercentage;
     const newImg = this.state.newImg;
     return (
-      <Container style={{ maxWidth: "100%" }}>
-        <Row
+      // <Container style={{ maxWidth: "100%" }}>
+      /* {   <Row
           style={{
             backgroundColor: "#212529",
             paddingTop: "20px",
@@ -255,30 +259,26 @@ class App extends Component {
               <button onClick={this.startChangeImage}>Toggle Camera</button>
             )}
           </Col>
-        </Row>
-        <Provider store={store}>
-          <Router>
-            <Layout>
-              <Switch>
-                <Route exact path="/" component={Home} />
-                <Route exact path="/login" component={Login} />
-                <Route exact path="/signup" component={Signup} />
-                <Route exact path="/reset-password" component={ResetPassword} />
-                <Route
-                  exact
-                  path="/password/reset/confirm/:uid/:token"
-                  component={ResetPasswordConfirm}
-                />
-                <Route
-                  exact
-                  path="/activate/:uid/:token"
-                  component={Activate}
-                />
-              </Switch>
-            </Layout>
-          </Router>
-        </Provider>
-      </Container>
+        </Row>} */
+      <Provider store={store}>
+        <Router>
+          <Layout>
+            <Switch>
+              <Route exact path="/" component={Camera} />
+              <Route exact path="/login" component={Login} />
+              <Route exact path="/signup" component={Signup} />
+              <Route exact path="/reset-password" component={ResetPassword} />
+              <Route
+                exact
+                path="/password/reset/confirm/:uid/:token"
+                component={ResetPasswordConfirm}
+              />
+              <Route exact path="/activate/:uid/:token" component={Activate} />
+            </Switch>
+          </Layout>
+        </Router>
+      </Provider>
+      // </Container>
     );
   }
 }
