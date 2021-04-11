@@ -37,16 +37,44 @@ class App extends Component {
       uploadPercentage: 0,
       newImg:
         "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
+      image: null,
+      supportsCamera: "mediaDevices" in navigator,
     };
-
-    player = document.getElementById("player");
-    const constraints = {
-      video: true,
-    };
-    navigator.mediaDevices.getUserMedia(constraints).then((stream) => {
-      player.srcObject = stream;
-    });
   }
+
+  changeImage = (e) => {
+    this.setState({
+      image: URL.createObjectURL(e.target.files[0]),
+    });
+  };
+
+  startChangeImage = () => {
+    this.setState({ enableCamera: !this.state.enableCamera });
+  };
+
+  takeImage = () => {
+    this._canvas.width = this._video.videoWidth;
+    this._canvas.height = this._video.videoHeight;
+
+    this._canvas
+      .getContext("2d")
+      .drawImage(
+        this._video,
+        0,
+        0,
+        this._video.videoWidth,
+        this._video.videoHeight
+      );
+
+    this._video.srcObject.getVideoTracks().forEach((track) => {
+      track.stop();
+    });
+
+    this.setState({
+      image: this._canvas.toDataURL(),
+      enableCamera: false,
+    });
+  };
 
   fileChangedHandler = (event) => {
     console.log("fileChanged");
@@ -184,21 +212,47 @@ class App extends Component {
         </Row>
         <Row>
           <Col>
-            <video id="player" autoplay></video>
-            <button
-              id="capture"
-              onClick={(_) => {
-                const canvas = document.getElementById("canvas");
-                const context = canvas.getContext("2d");
-                context.drawImage(player, 0, 0, canvas.width, canvas.height);
-              }}
-            >
-              Capture
-            </button>
-            <canvas
-              id="canvas"
-              style={{ width: "320px", height: "240px" }}
-            ></canvas>
+            <img
+              src={this.state.image}
+              alt="profile"
+              style={{ height: 200, marginTop: 50 }}
+            />
+          </Col>
+        </Row>
+
+        <Row>
+          <Col>
+            {this.state.enableCamera && (
+              <div>
+                <video
+                  ref={(c) => {
+                    this._video = c;
+                    if (this._video) {
+                      navigator.mediaDevices
+                        .getUserMedia({ video: true })
+                        .then((stream) => (this._video.srcObject = stream));
+                    }
+                  }}
+                  controls={false}
+                  autoPlay
+                  style={{ width: "100%", maxWidth: 300 }}
+                ></video>
+
+                <br />
+
+                <button onClick={this.takeImage}>Take Image</button>
+
+                <canvas
+                  ref={(c) => (this._canvas = c)}
+                  style={{ display: "none" }}
+                />
+              </div>
+            )}
+
+            <br />
+            {this.state.supportsCamera && (
+              <button onClick={this.startChangeImage}>Toggle Camera</button>
+            )}
           </Col>
         </Row>
         <Provider store={store}>
