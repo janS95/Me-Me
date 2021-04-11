@@ -184,7 +184,7 @@ class App extends Component {
         </Row>
         <Row>
           <Col>
-            <video id="player" controls={false} autoplay></video>
+            <video id="player" autoplay></video>
             <button
               id="capture"
               onClick={(_) => {
