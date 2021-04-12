@@ -10,14 +10,14 @@ class Camera extends Component {
     return (
       <div style={{ position: "relative", height: "100%" }}>
         <video
-          ref={(c) => {
+          /* ref={(c) => {
             this._video = c;
             if (this._video) {
               navigator.mediaDevices
                 .getUserMedia({ video: true })
                 .then((stream) => (this._video.srcObject = stream));
             }
-          }}
+          }} */
           controls={false}
           autoPlay
           style={{
@@ -27,8 +27,25 @@ class Camera extends Component {
             objectFit: "cover",
           }}
         ></video>
+        <span
+          class="material-icons"
+          style={{
+            color: "#DDDDDD", //Welche Farbe????????
+            fontSize: "100px",
+            zIndex: "4",
+            position: "absolute",
+            left: "50%",
+            transform: "translateX(-50%)",
+            bottom: "4%",
+            height: "100px",
+            width: "100px",
+          }}
+          onClick={this.takeImage}
+        >
+          lens
+        </span>
 
-        <button
+        {/* <button
           style={{
             zIndex: "4",
             position: "absolute",
@@ -41,7 +58,7 @@ class Camera extends Component {
           }}
           onClick={this.takeImage}
         >
-        </button>
+        </button> */}
 
         <canvas ref={(c) => (this._canvas = c)} style={{ display: "none" }} />
       </div>

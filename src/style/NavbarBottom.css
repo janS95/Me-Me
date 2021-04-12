@@ -1,0 +1,15 @@
+.mobile-app-icon-bar {
+    position: relative;
+    width: 20%;
+    height: 100%;
+    float: left;
+}
+
+i {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    font-size: 3rem !important;
+    color: #957FEF
+}

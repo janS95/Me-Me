@@ -1,5 +1,5 @@
 import logo from "./logo.svg";
-import "./App.css";
+import "./style/App.css";
 import React, { Component } from "react";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -149,9 +149,9 @@ class App extends Component {
   componentDidMount() {}
 
   render() {
-    const Img = this.state.showIMG;
+    /*   const Img = this.state.showIMG;
     const uploadPercentage = this.state.uploadPercentage;
-    const newImg = this.state.newImg;
+    const newImg = this.state.newImg; */
     return (
       // <Container style={{ maxWidth: "100%" }}>
       /* {   <Row
