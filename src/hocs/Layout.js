@@ -12,10 +12,10 @@ const Layout = ({ checkAuthenticated, load_user, children }) => {
 
   return (
     <div style={{ height: "100vh" }}>
-      <div style={{ height: "5vh", background: "blue" }}>
+      <div style={{ height: "7vh", background: "#1F1F1F" }}>
         <NavbarTop />
       </div>
-      <div style={{ height: "88vh", background: "#1F1F1F" }}>{children}</div>
+      <div style={{ height: "86vh", background: "#1F1F1F" }}>{children}</div>
       <div style={{ height: "7vh", background: "#1F1F1F" }}>
         <NavbarBottom />
       </div>

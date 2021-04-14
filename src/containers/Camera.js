@@ -10,14 +10,14 @@ class Camera extends Component {
     return (
       <div style={{ position: "relative", height: "100%" }}>
         <video
-          /* ref={(c) => {
+           ref={(c) => {
             this._video = c;
             if (this._video) {
               navigator.mediaDevices
                 .getUserMedia({ video: true })
                 .then((stream) => (this._video.srcObject = stream));
             }
-          }} */
+          }} 
           controls={false}
           autoPlay
           style={{
