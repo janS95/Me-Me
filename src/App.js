@@ -57,29 +57,7 @@ class App extends Component {
     this.setState({ enableCamera: !this.state.enableCamera });
   };
 
-  takeImage = () => {
-    this._canvas.width = this._video.videoWidth;
-    this._canvas.height = this._video.videoHeight;
-
-    this._canvas
-      .getContext("2d")
-      .drawImage(
-        this._video,
-        0,
-        0,
-        this._video.videoWidth,
-        this._video.videoHeight
-      );
-
-    this._video.srcObject.getVideoTracks().forEach((track) => {
-      track.stop();
-    });
-
-    this.setState({
-      image: this._canvas.toDataURL(),
-      //  enableCamera: false,
-    });
-  };
+  
 
   fileChangedHandler = (event) => {
     console.log("fileChanged");
