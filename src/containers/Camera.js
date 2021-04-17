@@ -18,15 +18,6 @@ class Camera extends Component {
   }
 
 
-/* componentDidUpdate(prevProps,prevState){
- console.log(this.state);
- console.log(prevState);
-  if (this.state!=prevState) {
-    this.render()
-  } 
-  
-}*/
-
   DataURIToBlob(dataURI) {
     const splitDataURI = dataURI.split(",");
     const byteString =
