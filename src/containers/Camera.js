@@ -13,9 +13,20 @@ class Camera extends Component {
       imageStatus: "takeImage",
       image: null,
       uploadPercentage: 0,
-      showImge:true,
+      showImge: true,
     };
   }
+
+
+/* componentDidUpdate(prevProps,prevState){
+ console.log(this.state);
+ console.log(prevState);
+  if (this.state!=prevState) {
+    this.render()
+  } 
+  
+}*/
+
   DataURIToBlob(dataURI) {
     const splitDataURI = dataURI.split(",");
     const byteString =
@@ -55,7 +66,7 @@ class Camera extends Component {
   };
 
   uploadHandler = () => {
-    this.setState({showImge:false});
+    this.setState({ showImge: false });
     var formData = new FormData();
     const file = this.DataURIToBlob(this.state.image);
     console.log(file);
@@ -67,7 +78,7 @@ class Camera extends Component {
         "img.png"
         //this.state.image.name
       );
-      
+
       document.getElementById("clear").style.visibility = "hidden";
       document.getElementById("done").style.visibility = "hidden";
 
@@ -91,12 +102,10 @@ class Camera extends Component {
           },
         })
         .then((res) => {
-       
           document.getElementById("clear").style.visibility = "visible";
           document.getElementById("done").style.visibility = "visible";
-          this.setState({ image: res.data, imageStatus: "receivedImage" });
+          this.setState({ image: res.data, imageStatus: "receivedImage",showImge:true });
           console.log(res.data);
-         
         });
     }
   };
@@ -154,58 +163,17 @@ class Camera extends Component {
       case "imageTaken":
         return (
           <div style={{ position: "relative", height: "100%" }}>
-           {showImge? <img
-              src={this.state.image}
-              style={{
-                width: "100%",
-                height: "100%",
-                marginTop: "0%",
-                objectFit: "cover",
-              }}
-            ></img>:null}
-
-            <span
-              id="clear"
-              class="material-icons imageChoices"
-              style={{
-                color: "rgb(152 7 7)", //Welche Farbe????????
-                left: "25%",
-              }}
-              onClick={(_) => {
-                this.setState({ imageStatus: "takeImage",showImge:true });
-              }}
-            >
-              clear
-            </span>
-            <span
-              id="done"
-              class="material-icons imageChoices"
-              style={{
-                color: "rgb(90 152 7)", //Welche Farbe????????
-                left: "75%",
-              }}
-              onClick={this.uploadHandler}
-            >
-              done
-            </span>
-            <canvas
-              ref={(c) => (this._canvas = c)}
-              style={{ display: "none" }}
-            />
-          </div>
-        );
-      case "receivedImage":
-        return (
-          <div style={{ position: "relative", height: "100%" }}>
-            {showImge? <img
-              src={this.state.image}
-              style={{
-                width: "100%",
-                height: "100%",
-                marginTop: "0%",
-                objectFit: "cover",
-              }}
-            ></img>:null}
+            {this.state.showImge ? (
+              <img
+                src={this.state.image}
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  marginTop: "0%",
+                  objectFit: "cover",
+                }}
+              ></img>
+            ) : null}
             {uploadPercentage > 0 && (
               <div
                 position="absolute"
@@ -240,11 +208,56 @@ class Camera extends Component {
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "center",
-                    color:"#957fef"
+                    color: "#957fef",
                   }}
                 >{`${uploadPercentage}%`}</span>
               </div>
             )}
+            <span
+              id="clear"
+              class="material-icons imageChoices"
+              style={{
+                color: "rgb(152 7 7)", //Welche Farbe????????
+                left: "25%",
+              }}
+              onClick={(_) => {
+                this.setState({ imageStatus: "takeImage", showImge: true });
+              }}
+            >
+              clear
+            </span>
+            <span
+              id="done"
+              class="material-icons imageChoices"
+              style={{
+                color: "rgb(90 152 7)", //Welche Farbe????????
+                left: "75%",
+              }}
+              onClick={this.uploadHandler}
+            >
+              done
+            </span>
+            <canvas
+              ref={(c) => (this._canvas = c)}
+              style={{ display: "none" }}
+            />
+          </div>
+        );
+      case "receivedImage":
+        return (
+          <div style={{ position: "relative", height: "100%" }}>
+            {this.state.showImge ? (
+              <img
+                src={this.state.image}
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  marginTop: "0%",
+                  objectFit: "cover",
+                }}
+              ></img>
+            ) : null}
+
             <span
               class="material-icons imageChoices"
               style={{
@@ -252,7 +265,7 @@ class Camera extends Component {
                 left: "25%",
               }}
               onClick={(_) => {
-                this.setState({ imageStatus: "takeImage",showImge:true });
+                this.setState({ imageStatus: "takeImage", showImge: true });
               }}
             >
               clear
