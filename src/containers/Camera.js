@@ -67,7 +67,7 @@ class Camera extends Component {
         "img.png"
         //this.state.image.name
       );
-      document.getElementById("receivedImage").style.visibility = "hidden";
+      
       document.getElementById("clear").style.visibility = "hidden";
       document.getElementById("done").style.visibility = "hidden";
 
@@ -91,7 +91,7 @@ class Camera extends Component {
           },
         })
         .then((res) => {
-          document.getElementById("receivedImage").style.visibility = "visible";
+       
           document.getElementById("clear").style.visibility = "visible";
           document.getElementById("done").style.visibility = "visible";
           this.setState({ image: res.data, imageStatus: "receivedImage" });
