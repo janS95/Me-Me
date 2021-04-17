@@ -2,8 +2,6 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import Typography from "@material-ui/core/Typography";
-import Box from "@material-ui/core/Box";
 import "../style/Camera.css";
 
 class Camera extends Component {
@@ -12,7 +10,7 @@ class Camera extends Component {
     this.state = {
       imageStatus: "takeImage",
       image: null,
-      uploadPercentage: 0,
+      uploadPercentage:0,
       showImge: true,
     };
   }
@@ -129,7 +127,45 @@ class Camera extends Component {
                 objectFit: "cover",
               }}
             ></video>
+  {uploadPercentage > 0 && (
+              <div
+                position="absolute"
+                top="50%"
+                left="50%"
+                transform="translate(-50%,-50%)"
+                width="5rem"
+                height="5rem"
+              >
+                <CircularProgress
+                  style={{
+                    position: "absolute",
+                    top: "50%",
+                    left: "50%",
+                    width: "5rem",
+                    height: "5rem",
+                    transform: "translate(-50%,-50%)",
+                    color: "#957fef",
+                  }}
+                  variant="determinate"
+                  value={uploadPercentage}
+                />
 
+                <span
+                  style={{
+                    position: "absolute",
+                    width: "5rem",
+                    height: "5rem",
+                    top: "50%",
+                    left: "50%",
+                    transform: "translate(-50%,-50%)",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    color: "#957fef",
+                  }}
+                >{`${uploadPercentage}%`}</span>
+              </div>
+            )}
             <span
               class="material-icons"
               style={{
