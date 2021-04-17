@@ -10,7 +10,7 @@ class Camera extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isCameraActive: true,
+      imageStatus: "takeImage",
       image: null,
       uploadPercentage: 0,
     };
@@ -49,7 +49,7 @@ class Camera extends Component {
 
     this.setState({
       image: this._canvas.toDataURL(),
-      isCameraActive: false,
+      imageStatus: "imageTaken",
     });
   };
 
@@ -65,17 +65,19 @@ class Camera extends Component {
         "img.png"
         //this.state.image.name
       );
-      
+      document.getElementById("receivedImage").style.visibility = "hidden";
+      document.getElementById("clear").style.visibility = "hidden";
+      document.getElementById("done").style.visibility = "hidden";
 
       axios
         .post("/api/image/", formData, {
           onUploadProgress: (progressEvent) => {
             console.log(progressEvent.loaded / progressEvent.total);
-             this.setState({
+            this.setState({
               uploadPercentage: Math.floor(
                 (progressEvent.loaded * 100) / progressEvent.total
               ),
-            }); 
+            });
             if (
               Math.floor((progressEvent.loaded * 100) / progressEvent.total) >=
               100
@@ -87,130 +89,189 @@ class Camera extends Component {
           },
         })
         .then((res) => {
+          document.getElementById("receivedImage").style.visibility = "visible";
+          document.getElementById("clear").style.visibility = "visible";
+          document.getElementById("done").style.visibility = "visible";
+          this.setState({ image: res.data, imageStatus: "receivedImage" });
           console.log(res.data);
+         
         });
     }
   };
 
   render() {
     var uploadPercentage = this.state.uploadPercentage;
-    if (this.state.isCameraActive) {
-      return (
-        <div style={{ position: "relative", height: "100%" }}>
-          <video
-            ref={(c) => {
-              this._video = c;
-              if (this._video) {
-                navigator.mediaDevices
-                  .getUserMedia({ video: true })
-                  .then((stream) => (this._video.srcObject = stream));
-              }
-            }}
-            controls={false}
-            autoPlay
-            style={{
-              transform: "rotateY(180deg)",
-              width: "100%",
-              height: "100%",
-              marginTop: "0%",
-              objectFit: "cover",
-            }}
-          ></video>
+    switch (this.state.imageStatus) {
+      case "takeImage":
+        return (
+          <div style={{ position: "relative", height: "100%" }}>
+            <video
+              ref={(c) => {
+                this._video = c;
+                if (this._video) {
+                  navigator.mediaDevices
+                    .getUserMedia({ video: true })
+                    .then((stream) => (this._video.srcObject = stream));
+                }
+              }}
+              controls={false}
+              autoPlay
+              style={{
+                transform: "rotateY(180deg)",
+                width: "100%",
+                height: "100%",
+                marginTop: "0%",
+                objectFit: "cover",
+              }}
+            ></video>
 
-          <span
-            class="material-icons"
-            style={{
-              color: "#DDDDDD", //Welche Farbe????????
-              fontSize: "100px",
-              zIndex: "4",
-              position: "absolute",
-              left: "50%",
-              transform: "translateX(-50%)",
-              bottom: "4%",
-              height: "100px",
-              width: "100px",
-            }}
-            onClick={this.takeImage}
-          >
-            lens
-          </span>
-          <canvas ref={(c) => (this._canvas = c)} style={{ display: "none" }} />
-        </div>
-      );
-    } else {
-      return (
-        <div style={{ position: "relative", height: "100%" }}>
-          <img
-            src={this.state.image}
-            style={{
-              width: "100%",
-              height: "100%",
-              marginTop: "0%",
-              objectFit: "cover",
-            }}
-          ></img>
-          {uploadPercentage > 0 && (
-            <div
-              position="absolute"
-              top="50%"
-              left="50%"
-              transform="translate(-50%,-50%)"
-              width="5rem"
-              height="5rem"
+            <span
+              class="material-icons"
+              style={{
+                color: "#DDDDDD", //Welche Farbe????????
+                fontSize: "100px",
+                zIndex: "4",
+                position: "absolute",
+                left: "50%",
+                transform: "translateX(-50%)",
+                bottom: "4%",
+                height: "100px",
+                width: "100px",
+              }}
+              onClick={this.takeImage}
             >
-              <CircularProgress
-                style={{
-                  position: "absolute",
-                  top: "50%",
-                  left: "50%",
-                  width: "5rem",
-                  height: "5rem",
-                  transform: "translate(-50%,-50%)",
-                }}
-                variant="determinate"
-                value={uploadPercentage}
-              />
+              lens
+            </span>
+            <canvas
+              ref={(c) => (this._canvas = c)}
+              style={{ display: "none" }}
+            />
+          </div>
+        );
 
-              <span
-                style={{
-                  position: "absolute",
-                  width: "5rem",
-                  height: "5rem",
-                  top: "50%",
-                  left: "50%",
-                  transform: "translate(-50%,-50%)",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >{`${uploadPercentage}%`}</span>
-            </div>
-          )}
-          <span
-            class="material-icons imageChoices"
-            style={{
-              color: "rgb(152 7 7)", //Welche Farbe????????
-              left: "25%",
-            }}
-            onClick={(_) => {
-              this.setState({ isCameraActive: true });
-            }}
-          >
-            clear
-          </span>
-          <span
-            class="material-icons imageChoices"
-            style={{
-              color: "rgb(90 152 7)", //Welche Farbe????????
-              left: "75%",
-            }}
-            onClick={this.uploadHandler}
-          >
-            done
-          </span>
-          <canvas ref={(c) => (this._canvas = c)} style={{ display: "none" }} />
-        </div>
-      );
+      case "imageTaken":
+        return (
+          <div style={{ position: "relative", height: "100%" }}>
+            <img  id="receivedImage"
+              src={this.state.image}
+              style={{
+                width: "100%",
+                height: "100%",
+                marginTop: "0%",
+                objectFit: "cover",
+              }}
+            ></img>
+
+            <span
+              id="clear"
+              class="material-icons imageChoices"
+              style={{
+                color: "rgb(152 7 7)", //Welche Farbe????????
+                left: "25%",
+              }}
+              onClick={(_) => {
+                this.setState({ imageStatus: "takeImage" });
+              }}
+            >
+              clear
+            </span>
+            <span
+              id="done"
+              class="material-icons imageChoices"
+              style={{
+                color: "rgb(90 152 7)", //Welche Farbe????????
+                left: "75%",
+              }}
+              onClick={this.uploadHandler}
+            >
+              done
+            </span>
+            <canvas
+              ref={(c) => (this._canvas = c)}
+              style={{ display: "none" }}
+            />
+          </div>
+        );
+      case "receivedImage":
+        return (
+          <div style={{ position: "relative", height: "100%" }}>
+            <img
+             
+              src={this.state.image}
+              style={{
+                width: "100%",
+                height: "100%",
+                marginTop: "0%",
+                objectFit: "cover",
+              }}
+            ></img>
+            {uploadPercentage > 0 && (
+              <div
+                position="absolute"
+                top="50%"
+                left="50%"
+                transform="translate(-50%,-50%)"
+                width="5rem"
+                height="5rem"
+              >
+                <CircularProgress
+                  style={{
+                    position: "absolute",
+                    top: "50%",
+                    left: "50%",
+                    width: "5rem",
+                    height: "5rem",
+                    transform: "translate(-50%,-50%)",
+                  }}
+                  variant="determinate"
+                  value={uploadPercentage}
+                />
+
+                <span
+                  style={{
+                    position: "absolute",
+                    width: "5rem",
+                    height: "5rem",
+                    top: "50%",
+                    left: "50%",
+                    transform: "translate(-50%,-50%)",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >{`${uploadPercentage}%`}</span>
+              </div>
+            )}
+            <span
+              class="material-icons imageChoices"
+              style={{
+                color: "rgb(152 7 7)", //Welche Farbe????????
+                left: "25%",
+              }}
+              onClick={(_) => {
+                this.setState({ imageStatus: "takeImage" });
+              }}
+            >
+              clear
+            </span>
+            <span
+              class="material-icons imageChoices"
+              style={{
+                color: "rgb(90 152 7)", //Welche Farbe????????
+                left: "75%",
+              }}
+              onClick={(_) => {
+                alert("MACHT NOCH NIX DU UNDANKBARES STÜCK!!");
+              }}
+            >
+              file_download
+            </span>
+            <canvas
+              ref={(c) => (this._canvas = c)}
+              style={{ display: "none" }}
+            />
+          </div>
+        );
     }
   }
 }
