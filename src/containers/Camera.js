@@ -17,7 +17,6 @@ class Camera extends Component {
     };
   }
 
-
   DataURIToBlob(dataURI) {
     const splitDataURI = dataURI.split(",");
     const byteString =
@@ -95,7 +94,11 @@ class Camera extends Component {
         .then((res) => {
           document.getElementById("clear").style.visibility = "visible";
           document.getElementById("done").style.visibility = "visible";
-          this.setState({ image: res.data, imageStatus: "receivedImage",showImge:true });
+          this.setState({
+            image: res.data,
+            imageStatus: "receivedImage",
+            showImge: true,
+          });
           console.log(res.data);
         });
     }
@@ -182,10 +185,10 @@ class Camera extends Component {
                     width: "5rem",
                     height: "5rem",
                     transform: "translate(-50%,-50%)",
+                    color: "#957fef",
                   }}
                   variant="determinate"
                   value={uploadPercentage}
-                  color="#957fef"
                 />
 
                 <span
