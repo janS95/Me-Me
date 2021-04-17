@@ -13,6 +13,7 @@ class Camera extends Component {
       imageStatus: "takeImage",
       image: null,
       uploadPercentage: 0,
+      showImge:true,
     };
   }
   DataURIToBlob(dataURI) {
@@ -54,6 +55,7 @@ class Camera extends Component {
   };
 
   uploadHandler = () => {
+    this.setState({showImge:false});
     var formData = new FormData();
     const file = this.DataURIToBlob(this.state.image);
     console.log(file);
@@ -152,7 +154,7 @@ class Camera extends Component {
       case "imageTaken":
         return (
           <div style={{ position: "relative", height: "100%" }}>
-            <img  id="receivedImage"
+           {showImge? <img
               src={this.state.image}
               style={{
                 width: "100%",
@@ -160,7 +162,7 @@ class Camera extends Component {
                 marginTop: "0%",
                 objectFit: "cover",
               }}
-            ></img>
+            ></img>:null}
 
             <span
               id="clear"
@@ -170,7 +172,7 @@ class Camera extends Component {
                 left: "25%",
               }}
               onClick={(_) => {
-                this.setState({ imageStatus: "takeImage" });
+                this.setState({ imageStatus: "takeImage",showImge:true });
               }}
             >
               clear
@@ -195,8 +197,7 @@ class Camera extends Component {
       case "receivedImage":
         return (
           <div style={{ position: "relative", height: "100%" }}>
-            <img
-             
+            {showImge? <img
               src={this.state.image}
               style={{
                 width: "100%",
@@ -204,7 +205,7 @@ class Camera extends Component {
                 marginTop: "0%",
                 objectFit: "cover",
               }}
-            ></img>
+            ></img>:null}
             {uploadPercentage > 0 && (
               <div
                 position="absolute"
@@ -225,6 +226,7 @@ class Camera extends Component {
                   }}
                   variant="determinate"
                   value={uploadPercentage}
+                  color="#957fef"
                 />
 
                 <span
@@ -238,6 +240,7 @@ class Camera extends Component {
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "center",
+                    color:"#957fef"
                   }}
                 >{`${uploadPercentage}%`}</span>
               </div>
@@ -249,7 +252,7 @@ class Camera extends Component {
                 left: "25%",
               }}
               onClick={(_) => {
-                this.setState({ imageStatus: "takeImage" });
+                this.setState({ imageStatus: "takeImage",showImge:true });
               }}
             >
               clear
