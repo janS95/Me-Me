@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import Typography from "@material-ui/core/Typography";
+import Box from "@material-ui/core/Box";
 import "../style/Camera.css";
 
 class Camera extends Component {
@@ -9,6 +12,7 @@ class Camera extends Component {
     this.state = {
       isCameraActive: true,
       image: null,
+      uploadPercentage: 0,
     };
   }
   DataURIToBlob(dataURI) {
@@ -61,24 +65,25 @@ class Camera extends Component {
         "img.png"
         //this.state.image.name
       );
+      
 
       axios
         .post("/api/image/", formData, {
           onUploadProgress: (progressEvent) => {
             console.log(progressEvent.loaded / progressEvent.total);
-            // this.setState({
-            //   uploadPercentage: Math.floor(
-            //     (progressEvent.loaded * 100) / progressEvent.total
-            //   ),
-            // });
-            // if (
-            //   Math.floor((progressEvent.loaded * 100) / progressEvent.total) >=
-            //   100
-            // ) {
-            //   setTimeout(() => {
-            //     this.setState({ uploadPercentage: 0 });
-            //   }, 1000);
-            // }
+             this.setState({
+              uploadPercentage: Math.floor(
+                (progressEvent.loaded * 100) / progressEvent.total
+              ),
+            }); 
+            if (
+              Math.floor((progressEvent.loaded * 100) / progressEvent.total) >=
+              100
+            ) {
+              setTimeout(() => {
+                this.setState({ uploadPercentage: 0 });
+              }, 1000);
+            }
           },
         })
         .then((res) => {
@@ -88,6 +93,7 @@ class Camera extends Component {
   };
 
   render() {
+    var uploadPercentage = this.state.uploadPercentage;
     if (this.state.isCameraActive) {
       return (
         <div style={{ position: "relative", height: "100%" }}>
@@ -110,6 +116,7 @@ class Camera extends Component {
               objectFit: "cover",
             }}
           ></video>
+
           <span
             class="material-icons"
             style={{
@@ -142,6 +149,43 @@ class Camera extends Component {
               objectFit: "cover",
             }}
           ></img>
+          {uploadPercentage > 0 && (
+            <div
+              position="absolute"
+              top="50%"
+              left="50%"
+              transform="translate(-50%,-50%)"
+              width="5rem"
+              height="5rem"
+            >
+              <CircularProgress
+                style={{
+                  position: "absolute",
+                  top: "50%",
+                  left: "50%",
+                  width: "5rem",
+                  height: "5rem",
+                  transform: "translate(-50%,-50%)",
+                }}
+                variant="determinate"
+                value={uploadPercentage}
+              />
+
+              <span
+                style={{
+                  position: "absolute",
+                  width: "5rem",
+                  height: "5rem",
+                  top: "50%",
+                  left: "50%",
+                  transform: "translate(-50%,-50%)",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >{`${uploadPercentage}%`}</span>
+            </div>
+          )}
           <span
             class="material-icons imageChoices"
             style={{
