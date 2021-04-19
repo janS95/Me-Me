@@ -20,10 +20,16 @@ import Layout from "./hocs/Layout";
 
 import { Provider } from "react-redux";
 import store from "./store";
+import { withStyles } from '@material-ui/core/styles';
+
+
+import { ThemeProvider } from "@material-ui/styles";
+import { lightTheme, darkTheme } from "./themes";
 
 axios.defaults.xsrfCookieName = "csrftoken";
 axios.defaults.xsrfHeaderName = "X-CSRFToken";
 var player = null;
+var theme = null;
 
 class App extends Component {
   constructor(props) {
@@ -44,8 +50,11 @@ class App extends Component {
       image: null,
       supportsCamera: "mediaDevices" in navigator,
       enableCamera: true,
+      theme:lightTheme
     };
+     
   }
+    
 
   changeImage = (e) => {
     this.setState({
@@ -238,6 +247,7 @@ class App extends Component {
             )}
           </Col>
         </Row>} */
+        <ThemeProvider theme={this.state.theme}>
       <Provider store={store}>
         <Router>
           <Layout>
@@ -256,8 +266,9 @@ class App extends Component {
           </Layout>
         </Router>
       </Provider>
+      </ThemeProvider>
       // </Container>
     );
   }
 }
-export default App;
+export default App; 
