@@ -1,33 +1,35 @@
-import { ThemeOptions, createMuiTheme } from '@material-ui/core';
-
-export const lightTheme =createMuiTheme({
-  palette: {
-    primary: {
-      light: '#dd0000',
-      main: '#dd0000',
-      dark: '#008fcc'
-    },
-    secondary: {
-      light: '#FF1476',
-      main: '#CC137A',
-      dark: '#B3116B'
-    }
-}
-   
-});
+import { ThemeOptions, createMuiTheme } from "@material-ui/core";
 
 export const darkTheme = createMuiTheme({
   palette: {
     primary: {
-      light: '#01FFFF',
-      main: '#00ff00',
-      dark: '#000D80'
+      main: "#1F1F1F",
     },
     secondary: {
-      light: '#FF61BE',
-      main: '#00ff00',
-      dark: '#EF0888'
+      main: "#957FEF",
     },
-   
+    font: {
+      main: "#CFCBCA",
+    },
+    highlight: {
+      main: "#68A4D9",
+    },
+  },
+});
+
+export const lightTheme = createMuiTheme({
+  palette: {
+    primary: {
+      main: "#F6F6F6",
+    },
+    secondary: {
+      main: "#7180AC",
+    },
+    font: {
+      main: "#433633",
+    },
+    highlight: {
+      main: "#FF934F",
+    },
   },
 });

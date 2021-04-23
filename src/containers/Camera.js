@@ -141,7 +141,7 @@ useEffect(()=>{
             <span
               class="material-icons"
               style={{
-                color: theme.palette.primary.main, //Welche Farbe????????
+                color: theme.palette.highlight.main, //Welche Farbe????????
                 fontSize: "100px",
                 zIndex: "4",
                 position: "absolute",
@@ -193,7 +193,7 @@ useEffect(()=>{
                     width: "5rem",
                     height: "5rem",
                     transform: "translate(-50%,-50%)",
-                    color: "#957fef",
+                    color: theme.palette.secondary.main,
                   }}
                   variant="determinate"
                   value={uploadPercentage}
@@ -210,7 +210,7 @@ useEffect(()=>{
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "center",
-                    color: "#957fef",
+                    color: theme.palette.secondary.main,
                   }}
                 >{`${uploadPercentage}%`}</span>
               </div>
@@ -236,14 +236,13 @@ useEffect(()=>{
                 color: "rgb(90 152 7)", //Welche Farbe????????
                 left: "75%",
               }}
-              onClick={()=>{uploadHandler()}}
+              onClick={() => {
+                uploadHandler();
+              }}
             >
               done
             </span>
-            <canvas
-              ref={canvasRef}
-              style={{ display: "none" }}
-            />
+            <canvas ref={canvasRef} style={{ display: "none" }} />
           </div>
         );
       case "receivedImage":
@@ -277,7 +276,7 @@ useEffect(()=>{
                     width: "5rem",
                     height: "5rem",
                     transform: "translate(-50%,-50%)",
-                    color: "#957fef",
+                    color: theme.palette.secondary.main,
                   }}
                   variant="determinate"
                   value={uploadPercentage}
@@ -294,7 +293,7 @@ useEffect(()=>{
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "center",
-                    color: theme.palette.primary.main,
+                    color: theme.palette.secondary.main,
                   }}
                 >{`${uploadPercentage}%`}</span>
               </div>

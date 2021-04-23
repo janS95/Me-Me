@@ -1,6 +1,6 @@
 import logo from "./logo.svg";
 import "./style/App.css";
-import React, { Component } from "react";
+import React from "react";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Container from "react-bootstrap/Container";
@@ -10,6 +10,7 @@ import Firebase from "firebase";
 import firebaseConfig from "./config";
 
 import Camera from "./containers/Camera";
+import Settings from "./containers/Settings";
 import Login from "./containers/Login";
 import Signup from "./containers/Signup";
 import Activate from "./containers/Activate";
@@ -20,19 +21,23 @@ import Layout from "./hocs/Layout";
 
 import { Provider } from "react-redux";
 import store from "./store";
-import { withStyles } from '@material-ui/core/styles';
-
 
 import { ThemeProvider } from "@material-ui/styles";
+import { useTheme } from "@material-ui/core/styles";
 import { lightTheme, darkTheme } from "./themes";
-
 axios.defaults.xsrfCookieName = "csrftoken";
 axios.defaults.xsrfHeaderName = "X-CSRFToken";
-var player = null;
-var theme = null;
 
-class App extends Component {
-  constructor(props) {
+const App = () => {
+  
+  var theme = null;
+  if (localStorage.getItem("theme") === "darkTheme") {
+    theme = darkTheme;
+  } else {
+    theme = lightTheme;
+  }
+
+  /*  constructor(props) {
     super(props);
     if (!Firebase.apps.length) {
       Firebase.initializeApp(firebaseConfig);
@@ -50,13 +55,11 @@ class App extends Component {
       image: null,
       supportsCamera: "mediaDevices" in navigator,
       enableCamera: true,
-      theme:lightTheme
+      theme: lightTheme,
     };
-     
-  }
-    
+  } */
 
-  changeImage = (e) => {
+  /* changeImage = (e) => {
     this.setState({
       image: URL.createObjectURL(e.target.files[0]),
     });
@@ -65,8 +68,6 @@ class App extends Component {
   startChangeImage = () => {
     this.setState({ enableCamera: !this.state.enableCamera });
   };
-
-  
 
   fileChangedHandler = (event) => {
     console.log("fileChanged");
@@ -133,15 +134,14 @@ class App extends Component {
     }
   };
 
-  componentDidMount() {}
+  componentDidMount() {} */
 
-  render() {
-    /*   const Img = this.state.showIMG;
+  /*   const Img = this.state.showIMG;
     const uploadPercentage = this.state.uploadPercentage;
     const newImg = this.state.newImg; */
-    return (
-      // <Container style={{ maxWidth: "100%" }}>
-      /* {   <Row
+  return (
+    // <Container style={{ maxWidth: "100%" }}>
+    /* {   <Row
           style={{
             backgroundColor: "#212529",
             paddingTop: "20px",
@@ -247,13 +247,14 @@ class App extends Component {
             )}
           </Col>
         </Row>} */
-        <ThemeProvider theme={this.state.theme}>
+
+    <ThemeProvider theme={theme}>
       <Provider store={store}>
         <Router>
           <Layout>
             <Switch>
               <Route exact path="/" component={Camera} />
-              <Route exact path="/login" component={Login} />
+              <Route exact path="/settings" component={Settings} />
               <Route exact path="/signup" component={Signup} />
               <Route exact path="/reset-password" component={ResetPassword} />
               <Route
@@ -266,9 +267,9 @@ class App extends Component {
           </Layout>
         </Router>
       </Provider>
-      </ThemeProvider>
-      // </Container>
-    );
-  }
-}
-export default App; 
+    </ThemeProvider>
+    // </Container>
+  );
+};
+
+export default App;
