@@ -1,39 +1,77 @@
 import logo from "./logo.svg";
-import "./App.css";
-import React, { Component } from "react";
+import "./style/App.css";
+import React from "react";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Container from "react-bootstrap/Container";
 import { Button, ProgressBar, Col, Form, Image, Row } from "react-bootstrap";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Firebase from "firebase";
 import firebaseConfig from "./config";
 
+import Camera from "./containers/Camera";
+import Settings from "./containers/Settings";
+import Login from "./containers/Login";
+import Signup from "./containers/Signup";
+import Activate from "./containers/Activate";
+import ResetPassword from "./containers/ResetPassword";
+import ResetPasswordConfirm from "./containers/ResetPasswordConfirm";
 
+import Layout from "./hocs/Layout";
 
+import { Provider } from "react-redux";
+import store from "./store";
 
+import { ThemeProvider } from "@material-ui/styles";
+import { useTheme } from "@material-ui/core/styles";
+import { lightTheme, darkTheme } from "./themes";
 axios.defaults.xsrfCookieName = "csrftoken";
 axios.defaults.xsrfHeaderName = "X-CSRFToken";
 
+const App = () => {
+  
+  var theme = null;
+  if (localStorage.getItem("theme") === "darkTheme") {
+    theme = darkTheme;
+  } else {
+    theme = lightTheme;
+  }
 
-class App extends Component {
-  constructor(props) {
+  /*  constructor(props) {
     super(props);
-    Firebase.initializeApp(firebaseConfig);
+    if (!Firebase.apps.length) {
+      Firebase.initializeApp(firebaseConfig);
+    } else {
+      Firebase.app(); // if already initialized, use that one
+    }
     this.state = {
-   
       showIMG:
         "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
       postIMG: null,
       emotion: "keine Emotion",
-      uploadPercentage:0,
-      newImg: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
+      uploadPercentage: 0,
+      newImg:
+        "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
+      image: null,
+      supportsCamera: "mediaDevices" in navigator,
+      enableCamera: true,
+      theme: lightTheme,
     };
-  }
+  } */
+
+  /* changeImage = (e) => {
+    this.setState({
+      image: URL.createObjectURL(e.target.files[0]),
+    });
+  };
+
+  startChangeImage = () => {
+    this.setState({ enableCamera: !this.state.enableCamera });
+  };
 
   fileChangedHandler = (event) => {
     console.log("fileChanged");
     this.setState((prevState) => ({
-
       showIMG: prevState.showIMG,
       postIMG: event.target.files[0],
       emotion: prevState.emotion,
@@ -46,7 +84,6 @@ class App extends Component {
     reader.onload = () => {
       if (reader.readyState === 2) {
         this.setState((prevState) => ({
-    
           showIMG: reader.result,
           postIMG: prevState.postIMG,
           emotion: prevState.emotion,
@@ -88,25 +125,23 @@ class App extends Component {
         .then((res) => {
           console.log(res.data);
           this.setState((prevState) => ({
-    
             showIMG: prevState.showIMG,
             postIMG: prevState.postIMG,
-            emotion:prevState.emotion,
-            newImg: res.data
+            emotion: prevState.emotion,
+            newImg: res.data,
           }));
         });
     }
   };
 
-  componentDidMount() {}
+  componentDidMount() {} */
 
-  render() {
-    const Img = this.state.showIMG;
-    const uploadPercentage=this.state.uploadPercentage;
-    const newImg = this.state.newImg;
-    return (
-      <Container style={{ maxWidth: "100%" }}>
-        <Row
+  /*   const Img = this.state.showIMG;
+    const uploadPercentage = this.state.uploadPercentage;
+    const newImg = this.state.newImg; */
+  return (
+    // <Container style={{ maxWidth: "100%" }}>
+    /* {   <Row
           style={{
             backgroundColor: "#212529",
             paddingTop: "20px",
@@ -123,7 +158,12 @@ class App extends Component {
         {uploadPercentage > 0 && (
           <Row>
             <Col>
-              <ProgressBar style={{width:"40%", marginLeft:"auto",marginRight:"auto"}}
+              <ProgressBar
+                style={{
+                  width: "40%",
+                  marginLeft: "auto",
+                  marginRight: "auto",
+                }}
                 now={uploadPercentage}
                 label={`${uploadPercentage}%`}
                 animated
@@ -146,8 +186,8 @@ class App extends Component {
                 this.fileChangedHandler(e);
                 this.imageHandler(e);
               }}
-              onClick={(e)=>{
-                e.target.value = '';
+              onClick={(e) => {
+                e.target.value = "";
               }}
             />
           </Col>
@@ -162,8 +202,74 @@ class App extends Component {
             <Image src={newImg} rounded></Image>
           </Col>
         </Row>
-      </Container>
-    );
-  }
-}
+        <Row>
+          <Col>
+            <img
+              src={this.state.image}
+              alt="profile"
+              style={{ height: 200, marginTop: 50 }}
+            />
+          </Col>
+        </Row>
+
+        <Row>
+          <Col>
+            {this.state.enableCamera && (
+              <div>
+                <video
+                  ref={(c) => {
+                    this._video = c;
+                    if (this._video) {
+                      navigator.mediaDevices
+                        .getUserMedia({ video: true })
+                        .then((stream) => (this._video.srcObject = stream));
+                    }
+                  }}
+                  controls={false}
+                  autoPlay
+                  style={{ width: "100%", maxWidth: 300 }}
+                ></video>
+
+                <br />
+
+                <button onClick={this.takeImage}>Take Image</button>
+
+                <canvas
+                  ref={(c) => (this._canvas = c)}
+                  style={{ display: "none" }}
+                />
+              </div>
+            )}
+
+            <br />
+            {this.state.supportsCamera && (
+              <button onClick={this.startChangeImage}>Toggle Camera</button>
+            )}
+          </Col>
+        </Row>} */
+
+    <ThemeProvider theme={theme}>
+      <Provider store={store}>
+        <Router>
+          <Layout>
+            <Switch>
+              <Route exact path="/" component={Camera} />
+              <Route exact path="/settings" component={Settings} />
+              <Route exact path="/signup" component={Signup} />
+              <Route exact path="/reset-password" component={ResetPassword} />
+              <Route
+                exact
+                path="/password/reset/confirm/:uid/:token"
+                component={ResetPasswordConfirm}
+              />
+              <Route exact path="/activate/:uid/:token" component={Activate} />
+            </Switch>
+          </Layout>
+        </Router>
+      </Provider>
+    </ThemeProvider>
+    // </Container>
+  );
+};
+
 export default App;

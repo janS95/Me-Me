@@ -22,7 +22,9 @@ from . import views
 urlpatterns = [
     path('admin/', admin.site.urls),         
     path('api/', include('api.urls')),
+    path('auth/', include('djoser.urls')),
+    path('auth/', include('djoser.urls.jwt')),
     path('service-worker.js', TemplateView.as_view(template_name='service-worker.js',content_type='application/javascript')),
     path('manifest.json', TemplateView.as_view(template_name='manifest.json',content_type='application/manifest+json')),
-    re_path('.*', views.index),#TemplateView.as_view(template_name='index.html')),
+    re_path('^.*', views.index),
 ]

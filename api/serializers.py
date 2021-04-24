@@ -1,4 +1,4 @@
-from rest_framework import serializers # This is important
+from rest_framework import serializers
 
 class ImageUploadSerializer(serializers.Serializer):
     image = serializers.ImageField()
