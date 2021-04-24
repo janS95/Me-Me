@@ -130,7 +130,7 @@ export default function Camera() {
           ></video>
 
           <span
-            class="material-icons"
+            class="material-icons image-choice-lens"
             style={{
               color: theme.palette.highlight.main, //Welche Farbe????????
               fontSize: "100px",
@@ -138,8 +138,6 @@ export default function Camera() {
               position: "absolute",
               left: "50%",
               transform: "translateX(-50%)",
-              WebkitTransform: "translateX(-50%)",
-              MozTransform: "translateX(-50%)",
               bottom: "4%",
               height: "100px",
               width: "100px",
