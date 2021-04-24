@@ -6,6 +6,8 @@
   font-size: 5rem;
   position: absolute;
   transform: translateX(-50%);
+  -moz-transform: translateX(-50%);
+  -webkit-transform: translateX(-50%);
   bottom: 5.5%;
   height: 5rem;
   width: 5rem;

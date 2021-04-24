@@ -20,6 +20,8 @@ const NavbarTop = () => {
           top: "50%",
           left: "3%",
           transform: "translate(0, -50%)",
+          WebkitTransform: "translate(0, -50%)",
+          MozTransform: "translate(0, -50%)",
           color: theme.palette.secondary.main,
           fontSize: "1.35rem",
         }}
@@ -34,6 +36,8 @@ const NavbarTop = () => {
           top: "50%",
           right: "3%",
           transform: "translate(0, -50%)",
+          WebkitTransform: "translate(0, -50%)",
+          MozTransform: "translate(0, -50%)",
           textAlign: "right",
         }}
       >
