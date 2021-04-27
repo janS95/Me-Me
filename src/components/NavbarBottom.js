@@ -27,15 +27,10 @@ const NavbarBottom = () => {
     }
   });
 
-  const test = (e) => {
-    e.preventDefault();
-    console.log(window.location.pathname);
-    console.log(document.querySelectorAll("div.mobile-app-icon-bar"));
-  };
 
   return (
     <div style={{ height: "100%", borderTop: "1px solid #3D3D3D" }}>
-      <div onClick={test} className="mobile-app-icon-bar">
+      <div className="mobile-app-icon-bar">
         <i
           style={{ color: theme.palette.secondary.main }}
           className="material-icons"
