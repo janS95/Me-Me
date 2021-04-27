@@ -1,6 +1,6 @@
 
 import "./style/App.css";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -26,14 +26,20 @@ import { lightTheme, darkTheme } from "./themes";
 axios.defaults.xsrfCookieName = "csrftoken";
 axios.defaults.xsrfHeaderName = "X-CSRFToken";
 
+export const ThemeContext = React.createContext();
+
 const App = () => {
-  
-  var theme = null;
-  if (localStorage.getItem("theme") === "darkTheme") {
-    theme = darkTheme;
-  } else {
-    theme = lightTheme;
-  }
+  const [theme, setTheme] = useState(lightTheme);
+  //var theme = null;
+  useEffect(() => {
+    if (localStorage.getItem("theme") === "darkTheme") {
+      //theme = darkTheme;
+      setTheme(darkTheme);
+    } else {
+      //theme = lightTheme;
+      setTheme(lightTheme);
+    }
+  });
 
   /*  constructor(props) {
     super(props);
@@ -245,27 +251,32 @@ const App = () => {
             )}
           </Col>
         </Row>} */
-
-    <ThemeProvider theme={theme}>
-      <Provider store={store}>
-        <Router>
-          <Layout>
-            <Switch>
-              <Route exact path="/" component={Camera} />
-              <Route exact path="/settings" component={Settings} />
-              <Route exact path="/signup" component={Signup} />
-              <Route exact path="/reset-password" component={ResetPassword} />
-              <Route
-                exact
-                path="/password/reset/confirm/:uid/:token"
-                component={ResetPasswordConfirm}
-              />
-              <Route exact path="/activate/:uid/:token" component={Activate} />
-            </Switch>
-          </Layout>
-        </Router>
-      </Provider>
-    </ThemeProvider>
+    <ThemeContext.Provider value={{ setTheme }}>
+      <ThemeProvider theme={theme}>
+        <Provider store={store}>
+          <Router>
+            <Layout>
+              <Switch>
+                <Route exact path="/" component={Camera} />
+                <Route exact path="/settings" component={Settings} />
+                <Route exact path="/signup" component={Signup} />
+                <Route exact path="/reset-password" component={ResetPassword} />
+                <Route
+                  exact
+                  path="/password/reset/confirm/:uid/:token"
+                  component={ResetPasswordConfirm}
+                />
+                <Route
+                  exact
+                  path="/activate/:uid/:token"
+                  component={Activate}
+                />
+              </Switch>
+            </Layout>
+          </Router>
+        </Provider>
+      </ThemeProvider>
+    </ThemeContext.Provider>
     // </Container>
   );
 };

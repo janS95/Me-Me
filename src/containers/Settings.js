@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { ThemeContext } from "../App";
 import Avatar from "@material-ui/core/Avatar";
 
 import { useTheme } from "@material-ui/core/styles";
 const Settings = () => {
-
+  const { setTheme } = useContext(ThemeContext);
   const theme = useTheme();
   const [isDark, setDark] = useState(true);
   return (
@@ -58,11 +59,13 @@ const Settings = () => {
             if (localStorage.getItem("theme") === "darkTheme") {
               localStorage.setItem("theme", "lightTheme");
               setDark(false);
-              window.location.reload();
+              setTheme(lightTheme);
+              //window.location.reload();
             } else {
               localStorage.setItem("theme", "darkTheme");
               setDark(true);
-              window.location.reload();
+              setTheme(darkTheme);
+              //window.location.reload();
             }
           }}
         >
