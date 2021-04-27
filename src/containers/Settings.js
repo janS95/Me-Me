@@ -1,12 +1,13 @@
 import React, { useState, useContext } from "react";
 import { ThemeContext } from "../App";
 import Avatar from "@material-ui/core/Avatar";
-
+import { lightTheme, darkTheme } from "../themes";
 import { useTheme } from "@material-ui/core/styles";
 const Settings = () => {
   const { setTheme } = useContext(ThemeContext);
   const theme = useTheme();
   const [isDark, setDark] = useState(true);
+
   return (
     <>
       <Avatar
