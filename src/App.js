@@ -1,17 +1,15 @@
-import logo from "./logo.svg";
+
 import "./style/App.css";
 import React from "react";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
-import Container from "react-bootstrap/Container";
-import { Button, ProgressBar, Col, Form, Image, Row } from "react-bootstrap";
+
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import Firebase from "firebase";
-import firebaseConfig from "./config";
+
 
 import Camera from "./containers/Camera";
 import Settings from "./containers/Settings";
-import Login from "./containers/Login";
+//import Login from "./containers/Login";
 import Signup from "./containers/Signup";
 import Activate from "./containers/Activate";
 import ResetPassword from "./containers/ResetPassword";
@@ -23,7 +21,7 @@ import { Provider } from "react-redux";
 import store from "./store";
 
 import { ThemeProvider } from "@material-ui/styles";
-import { useTheme } from "@material-ui/core/styles";
+
 import { lightTheme, darkTheme } from "./themes";
 axios.defaults.xsrfCookieName = "csrftoken";
 axios.defaults.xsrfHeaderName = "X-CSRFToken";

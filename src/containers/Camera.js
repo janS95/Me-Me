@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+//import { Link } from "react-router-dom";
 import axios from "axios";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import "../style/Camera.css";
@@ -130,7 +130,7 @@ export default function Camera() {
           ></video>
 
           <span
-            class="material-icons image-choice-lens"
+            className="material-icons image-choice-lens"
             style={{
               color: theme.palette.highlight.main, //Welche Farbe????????
               fontSize: "100px",
@@ -157,6 +157,7 @@ export default function Camera() {
         <div style={{ position: "relative", height: "100%" }}>
           {showImge ? (
             <img
+              alt="Fehler beim Laden"
               src={image}
               style={{
                 width: "100%",
@@ -214,7 +215,7 @@ export default function Camera() {
           )}
           <span
             id="clear"
-            class="material-icons imageChoices"
+            className="material-icons imageChoices"
             style={{
               color: "rgb(152 7 7)", //Welche Farbe????????
               left: "25%",
@@ -228,7 +229,7 @@ export default function Camera() {
           </span>
           <span
             id="done"
-            class="material-icons imageChoices"
+            className="material-icons imageChoices"
             style={{
               color: "rgb(90 152 7)", //Welche Farbe????????
               left: "75%",
@@ -247,6 +248,7 @@ export default function Camera() {
         <div style={{ position: "relative", height: "100%" }}>
           {showImge ? (
             <img
+              alt="Fehler beim Laden"
               src={image}
               style={{
                 width: "100%",
@@ -302,7 +304,7 @@ export default function Camera() {
             </div>
           )}
           <span
-            class="material-icons imageChoices"
+            className="material-icons imageChoices"
             style={{
               color: "rgb(152 7 7)", //Welche Farbe????????
               left: "25%",
@@ -315,7 +317,7 @@ export default function Camera() {
             clear
           </span>
           <span
-            class="material-icons imageChoices"
+            className="material-icons imageChoices"
             style={{
               color: "rgb(90 152 7)", //Welche Farbe????????
               left: "75%",
@@ -329,5 +331,7 @@ export default function Camera() {
           <canvas ref={canvasRef} style={{ display: "none" }} />
         </div>
       );
+    default:
+      break;
   }
 }

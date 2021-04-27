@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import Avatar from "@material-ui/core/Avatar";
 
-import { lightTheme, darkTheme } from "../themes";
 import { useTheme } from "@material-ui/core/styles";
 const Settings = () => {
 
@@ -37,7 +36,7 @@ const Settings = () => {
             color: theme.palette.font.main,
             fontSize: "calc(3.5vh + 1.5vw)",
           }}
-          class="material-icons"
+          className="material-icons"
         >
           search
         </div>

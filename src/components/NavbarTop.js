@@ -47,7 +47,7 @@ const NavbarTop = () => {
             verticalAlign: "middle",
             color: theme.palette.secondary.main,
           }}
-          class="material-icons"
+          className="material-icons"
         >
           send
         </span>
