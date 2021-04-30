@@ -1,77 +1,144 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { ThemeContext } from "../App";
 import Avatar from "@material-ui/core/Avatar";
 import { lightTheme, darkTheme } from "../themes";
 import { useTheme } from "@material-ui/core/styles";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Switch from "@material-ui/core/Switch";
+import "../style/Settings.css";
+
 const Settings = () => {
   const { setTheme } = useContext(ThemeContext);
+  const [isDark, setIsDark] = useState(false);
   const theme = useTheme();
-  const [isDark, setDark] = useState(true);
+
+  useEffect(() => {
+    if (localStorage.getItem("theme") === "darkTheme") {
+      setIsDark(true);
+    }
+  });
+
+  const handleChange = () => {
+    if (isDark) {
+      localStorage.setItem("theme", "lightTheme");
+      setTheme(lightTheme);
+      setIsDark(false);
+    } else {
+      localStorage.setItem("theme", "darkTheme");
+      setTheme(darkTheme);
+      setIsDark(true);
+    }
+  };
 
   return (
     <>
-      <Avatar
-        style={{ float: "left", width: "10vw", height: "10vw" }}
-        src="https://www.stuttgarter-zeitung.de/media.media.54ec38cb-61d6-407d-98f3-be2003eb33c5.original1024.jpg"
-      ></Avatar>
-      <div
-        style={{
-          display: "flex",
-          width: "90vw",
-          height: "10vw",
-          color: theme.palette.font.main,
-          alignItems: "center",
-          fontSize: "calc(3.5vh + 1.5vw)",
-        }}
-      >
-        Kitty
-      </div>
-      <div style={{ height: "10%", width: "100%" }}>
+      <div style={{ paddingTop: "5vh", marginBottom: "10vh" }}>
+        <Avatar
+          style={{
+            float: "left",
+            width: "20vw",
+            height: "20vw",
+            marginLeft: "15vw",
+          }}
+          src="https://www.stuttgarter-zeitung.de/media.media.54ec38cb-61d6-407d-98f3-be2003eb33c5.original1024.jpg"
+        ></Avatar>
         <div
           style={{
             display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            width: "20%",
-            height: "100%",
-            float: "left",
+            width: "60vw",
+            height: "20vw",
+            paddingLeft: "5vw",
             color: theme.palette.font.main,
+            alignItems: "center",
             fontSize: "calc(3.5vh + 1.5vw)",
           }}
-          className="material-icons"
+        >
+          Kitty
+        </div>
+      </div>
+      <div className="settings-container">
+        <div
+          className="material-icons settings-inner-icon"
+          style={{ color: theme.palette.font.main }}
         >
           search
         </div>
         <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            float: "left",
-            width: "80%",
-            height: "100%",
-            color: theme.palette.font.main,
-          }}
+          className="settings-inner-text"
+          style={{ color: theme.palette.font.main }}
         >
           Account
         </div>
-        <button
-          onClick={() => {
-            if (localStorage.getItem("theme") === "darkTheme") {
-              localStorage.setItem("theme", "lightTheme");
-              setDark(false);
-              setTheme(lightTheme);
-              //window.location.reload();
-            } else {
-              localStorage.setItem("theme", "darkTheme");
-              setDark(true);
-              setTheme(darkTheme);
-              //window.location.reload();
+      </div>
+      <div className="settings-container">
+        <div
+          className="material-icons settings-inner-icon"
+          style={{ color: theme.palette.font.main }}
+        >
+          search
+        </div>
+        <div
+          className="settings-inner-text"
+          style={{ color: theme.palette.font.main }}
+        >
+          Account
+        </div>
+      </div>
+      <div className="settings-container">
+        <div
+          className="material-icons settings-inner-icon"
+          style={{ color: theme.palette.font.main }}
+        >
+          search
+        </div>
+        <div
+          className="settings-inner-text"
+          style={{ color: theme.palette.font.main }}
+        >
+          Account
+        </div>
+      </div>
+      <div
+        style={{
+          borderTop: "1px solid",
+          borderBottom: "1px solid",
+          borderColor: "green",
+          paddingLeft: "15vw",
+          width: "100vw",
+          height: "10vh",
+          marginTop: "10vh",
+        }}
+      >
+        <div style={{ width: "10vw", height: "100%", float: "left" }}>
+          <FormControlLabel
+            style={{
+              justifyContent: "left",
+              width: "10vw",
+              display: "flex",
+              alignItems: "center",
+              height: "100%",
+            }}
+            control={
+              <Switch
+                checked={isDark}
+                onChange={handleChange}
+                name="checkedA"
+              />
             }
+          />
+        </div>
+        <div
+          style={{
+            height: "100%",
+            display: "flex",
+            float: "left",
+            alignItems: "center",
+            paddingLeft: "10vw",
+            color: theme.palette.font.main,
           }}
         >
-          CLICK ME
-        </button>
+          Dark Mode
+        </div>
       </div>
     </>
   );

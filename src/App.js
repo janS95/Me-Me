@@ -1,11 +1,9 @@
-
 import "./style/App.css";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-
 
 import Camera from "./containers/Camera";
 import Settings from "./containers/Settings";
