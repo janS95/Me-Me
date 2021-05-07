@@ -14,6 +14,12 @@ export const darkTheme = createMuiTheme({
     highlight: {
       main: "#68A4D9",
     },
+    active: {
+      main: "#303030",
+    },
+    border: {
+      main: "#3d3d3d",
+    },
   },
 });
 
@@ -30,6 +36,12 @@ export const lightTheme = createMuiTheme({
     },
     highlight: {
       main: "#FF934F",
+    },
+    active: {
+      main: "#e5e5e5",
+    },
+    border: {
+      main: "#d4d4d4",
     },
   },
 });

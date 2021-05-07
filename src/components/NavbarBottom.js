@@ -27,9 +27,14 @@ const NavbarBottom = () => {
     }
   });
 
-
   return (
-    <div style={{ height: "100%", borderTop: "1px solid #3D3D3D" }}>
+    <div
+      style={{
+        height: "100%",
+        borderTop: "1px solid",
+        borderColor: theme.palette.border.main,
+      }}
+    >
       <div className="mobile-app-icon-bar">
         <i
           style={{ color: theme.palette.secondary.main }}

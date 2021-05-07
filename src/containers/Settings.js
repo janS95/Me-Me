@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { ThemeContext } from "../App";
 import Avatar from "@material-ui/core/Avatar";
 import { lightTheme, darkTheme } from "../themes";
-import { useTheme } from "@material-ui/core/styles";
+import { useTheme, makeStyles } from "@material-ui/core/styles";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Switch from "@material-ui/core/Switch";
 import "../style/Settings.css";
@@ -11,7 +11,14 @@ const Settings = () => {
   const { setTheme } = useContext(ThemeContext);
   const [isDark, setIsDark] = useState(false);
   const theme = useTheme();
-
+  const useStyles = makeStyles({
+    active: {
+      "&:active": {
+        backgroundColor: theme.palette.active.main,
+      },
+    },
+  });
+  const classes = useStyles();
   useEffect(() => {
     if (localStorage.getItem("theme") === "darkTheme") {
       setIsDark(true);
@@ -32,12 +39,19 @@ const Settings = () => {
 
   return (
     <>
-      <div style={{ paddingTop: "5vh", marginBottom: "10vh" }}>
+      <div
+        style={{
+          paddingTop: "5vh",
+          marginBottom: "10vh",
+          display: "flex",
+          alignItems: "center",
+        }}
+      >
         <Avatar
           style={{
             float: "left",
-            width: "20vw",
-            height: "20vw",
+            width: "10vh",
+            height: "10vh",
             marginLeft: "15vw",
           }}
           src="https://www.stuttgarter-zeitung.de/media.media.54ec38cb-61d6-407d-98f3-be2003eb33c5.original1024.jpg"
@@ -46,7 +60,7 @@ const Settings = () => {
           style={{
             display: "flex",
             width: "60vw",
-            height: "20vw",
+            height: "10vh",
             paddingLeft: "5vw",
             color: theme.palette.font.main,
             alignItems: "center",
@@ -56,53 +70,73 @@ const Settings = () => {
           Kitty
         </div>
       </div>
-      <div className="settings-container">
+      <div className={`settings-container ${classes.active}`}>
         <div
           className="material-icons settings-inner-icon"
-          style={{ color: theme.palette.font.main }}
+          style={{
+            color: theme.palette.font.main,
+          }}
         >
-          search
+          person
         </div>
         <div
           className="settings-inner-text"
           style={{ color: theme.palette.font.main }}
         >
           Account
+        </div>
+        <div
+          className="settings-inner-caption"
+          style={{ color: theme.palette.font.main }}
+        >
+          Profil, Datenschutz, Sicherheit
         </div>
       </div>
-      <div className="settings-container">
+      <div className={`settings-container ${classes.active}`}>
         <div
           className="material-icons settings-inner-icon"
           style={{ color: theme.palette.font.main }}
         >
-          search
+          notifications
         </div>
         <div
           className="settings-inner-text"
           style={{ color: theme.palette.font.main }}
         >
-          Account
+          Benachrichtigungen
+        </div>
+        <div
+          className="settings-inner-caption"
+          style={{ color: theme.palette.font.main }}
+        >
+          Lorem, ipsum dolor.
         </div>
       </div>
-      <div className="settings-container">
+      <div className={`settings-container ${classes.active}`}>
         <div
           className="material-icons settings-inner-icon"
           style={{ color: theme.palette.font.main }}
         >
-          search
+          info
         </div>
         <div
           className="settings-inner-text"
           style={{ color: theme.palette.font.main }}
         >
-          Account
+          Info
+        </div>
+        <div
+          className="settings-inner-caption"
+          style={{ color: theme.palette.font.main }}
+        >
+          Hilfe, Version, Kontaktiere uns
         </div>
       </div>
       <div
         style={{
           borderTop: "1px solid",
           borderBottom: "1px solid",
-          borderColor: "green",
+          borderColor: theme.palette.border.main,
           paddingLeft: "15vw",
           width: "100vw",
           height: "10vh",
