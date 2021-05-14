@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
-//import { Link } from "react-router-dom";
+import { Redirect } from "react-router-dom";
+import { connect } from "react-redux";
+import { login } from "../actions/auth";
 import axios from "axios";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import "../style/Camera.css";
 import { useTheme } from "@material-ui/core/styles";
 
-export default function Camera() {
+const Camera = ({ isAuthenticated }) => {
   const theme = useTheme();
   const [imageStatus, setimageStatus] = useState("takeImage");
   const [image, setImage] = useState(null);
@@ -23,6 +25,12 @@ export default function Camera() {
         .then((stream) => (videoRef.current.srcObject = stream));
     }
   });
+
+  // Is the user not authenticated?
+  // Redirect them to the login page
+  if (!isAuthenticated) {
+    return <Redirect to="/login" />;
+  }
 
   function DataURIToBlob(dataURI) {
     const splitDataURI = dataURI.split(",");
@@ -335,3 +343,10 @@ export default function Camera() {
       break;
   }
 }
+
+
+const mapStateToProps = (state) => ({
+  isAuthenticated: state.auth.isAuthenticated,
+});
+
+export default connect(mapStateToProps, { login })(Camera);
